@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: file-analysis-service
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs

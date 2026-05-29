@@ -1,0 +1,98 @@
+services:
+  postgres-storing:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: cosmoscan_storing
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata-storing:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d cosmoscan_storing"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  postgres-analysis:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: cosmoscan_analysis
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5434:5432"
+    volumes:
+      - pgdata-analysis:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d cosmoscan_analysis"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio-data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  file-storing-service:
+    build:
+      context: .
+      dockerfile: file-storing-service/Dockerfile
+    env_file:
+      - file-storing-service/.env
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - "8081:8081"
+    depends_on:
+      postgres-storing:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+
+  file-analysis-service:
+    build:
+      context: .
+      dockerfile: file-analysis-service/Dockerfile
+    env_file:
+      - file-analysis-service/.env
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - "8082:8082"
+    depends_on:
+      postgres-analysis:
+        condition: service_healthy
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: api-gateway/Dockerfile
+    env_file:
+      - api-gateway/.env
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - "8080:8080"
+    depends_on:
+      - file-storing-service
+      - file-analysis-service
+
+volumes:
+  pgdata-storing:
+  pgdata-analysis:
+  minio-data:
