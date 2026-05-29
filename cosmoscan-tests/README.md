@@ -41,6 +41,10 @@ docker-compose up -d
 .\gradlew allureServe
 ```
 
+### Пример Allure отчета
+
+![Отчет Allure](../img/1.png)
+
 ## Полный цикл
 
 ```bash
@@ -62,5 +66,4 @@ GET `/api/v1/works/{workId}/reports`
 
 `base.url` — базовый URL Gateway, по умолчанию `http://localhost:8080`
 `allure.results.directory` — путь к сырым результатам, по умолчанию `build/allure-results`
-
 
