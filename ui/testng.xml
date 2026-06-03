@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="UI Test Suite">
+    <test name="All tests">
+        <classes>
+            <class name="ru.bauman.ui.tests.FramesTest"/>
+            <class name="ru.bauman.ui.tests.DynamicIdTest"/>
+            <class name="ru.bauman.ui.tests.VisibilityTest"/>
+            <class name="ru.bauman.ui.tests.TextInputTest"/>
+        </classes>
+    </test>
+</suite>

@@ -1,0 +1,32 @@
+plugins {
+	id 'java'
+	id 'io.qameta.allure' version '2.11.2'
+}
+
+group = 'ru.bauman'
+version = '1.0-SNAPSHOT'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.seleniumhq.selenium:selenium-java:4.15.0'
+	implementation 'io.github.bonigarcia:webdrivermanager:5.6.2'
+	testImplementation 'org.testng:testng:7.8.0'
+	testImplementation 'io.qameta.allure:allure-testng:2.24.0'
+}
+
+test {
+	useTestNG() {
+		suites 'testng.xml'
+	}
+	systemProperty "allure.results.directory", file("${buildDir}/allure-results")
+	systemProperty "browser", System.getProperty("browser")
+}
+
+allure {
+	version = '2.24.0'
+	autoconfigure = true
+	aspectjweaver = true
+}
