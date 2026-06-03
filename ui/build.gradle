@@ -1,0 +1,53 @@
+plugins {
+	id 'java'
+	id 'io.qameta.allure' version '2.11.2'
+}
+
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+
+group = 'ru.bauman'
+version = '1.0-SNAPSHOT'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.seleniumhq.selenium:selenium-java:4.15.0'
+	implementation 'io.github.bonigarcia:webdrivermanager:5.6.2'
+	testImplementation 'org.testng:testng:7.8.0'
+	testImplementation 'io.qameta.allure:allure-testng:2.24.0'
+	testImplementation 'io.qameta.allure:allure-java-commons:2.24.0'
+	testImplementation 'org.aspectj:aspectjweaver:1.9.21'
+	implementation 'org.slf4j:slf4j-api:2.0.9'
+	implementation 'ch.qos.logback:logback-classic:1.4.14'
+	implementation 'io.qameta.allure:allure-selenide:2.24.0'
+}
+
+test {
+	useTestNG() {
+		suites 'testng.xml'
+	}
+	systemProperty "allure.results.directory", file("${buildDir}/allure-results")
+	systemProperty "browser", System.getProperty("browser")
+
+	jvmArgs = [
+		"-javaagent:${configurations.testRuntimeClasspath.find { it.name.contains('aspectjweaver') }}"
+	]
+}
+
+allure {
+	version = '2.24.0'
+	autoconfigure = true
+	aspectjweaver = true
+	useTestNG {
+		version = '2.24.0'
+	}
+}
+
+tasks.register('allureReportServe', Exec) {
+	group = 'allure'
+	description = 'Generate and open Allure report (custom task)'
+	commandLine 'allure', 'serve', "${buildDir}/allure-results"
+}
