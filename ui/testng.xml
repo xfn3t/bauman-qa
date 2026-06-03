@@ -1,11 +1,15 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="UI Test Suite">
+    <listeners>
+        <listener class-name="ru.bauman.ui.tests.AllureTestListener" />
+    </listeners>
     <test name="All tests">
         <classes>
-            <class name="ru.bauman.ui.tests.FramesTest"/>
-            <class name="ru.bauman.ui.tests.DynamicIdTest"/>
-            <class name="ru.bauman.ui.tests.VisibilityTest"/>
-            <class name="ru.bauman.ui.tests.TextInputTest"/>
+            <class name="ru.bauman.ui.tests.DynamicIdTest" />
+            <class name="ru.bauman.ui.tests.FramesTest" />
+            <class name="ru.bauman.ui.tests.SampleAppTest" />
+            <class name="ru.bauman.ui.tests.TextInputTest" />
+            <class name="ru.bauman.ui.tests.VisibilityTest" />
         </classes>
     </test>
 </suite>

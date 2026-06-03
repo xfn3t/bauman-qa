@@ -1,5 +1,6 @@
 package ru.bauman.ui.pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -15,21 +16,34 @@ public class VisibilityPage extends BasePage {
         super(driver);
     }
 
+    @Step("Открытие страницы Visibility")
     public void open() {
+        log.info("Opening Visibility page");
         driver.get("https://www.uitestingplayground.com/visibility");
         wait.until(ExpectedConditions.visibilityOfElementLocated(hideButton));
+        log.info("Visibility page loaded, hide button is visible");
     }
 
+    @Step("Клик по кнопке Hide")
     public void clickHideButton() {
+        log.info("Clicking hide button");
         wait.until(ExpectedConditions.elementToBeClickable(hideButton)).click();
     }
 
+    @Step("Проверка наличия removedButton в DOM")
     public boolean isRemovedButtonPresent() {
-        return !driver.findElements(removedButton).isEmpty();
+        boolean present = !driver.findElements(removedButton).isEmpty();
+        log.info("Removed button present: {}", present);
+        return present;
     }
 
+    @Step("Получение ширины zeroWidthButton")
     public int getZeroWidthButtonWidth() {
-        WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(zeroWidthButton));
-        return element.getSize().getWidth();
+        WebElement element = wait.until(
+            ExpectedConditions.presenceOfElementLocated(zeroWidthButton)
+        );
+        int width = element.getSize().getWidth();
+        log.info("ZeroWidth button width: {}px", width);
+        return width;
     }
 }
