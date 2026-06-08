@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-add-energy-system-fields
+      author: system
+      changes:
+        - addColumn:
+            tableName: satellites
+            columns:
+              - column:
+                  name: min_battery
+                  type: decimal(3,2)
+                  defaultValueNumeric: 0.00
+                  constraints:
+                    nullable: false
+              - column:
+                  name: max_battery
+                  type: decimal(3,2)
+                  defaultValueNumeric: 1.00
+                  constraints:
+                    nullable: false
+              - column:
+                  name: low_battery_threshold
+                  type: decimal(3,2)
+                  defaultValueNumeric: 0.20
+                  constraints:
+                    nullable: false

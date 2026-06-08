@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-create-indexes
+      author: system
+      changes:
+        - createIndex:
+            tableName: satellites
+            indexName: idx_satellite_constellation
+            columns:
+              - column:
+                  name: constellation_id
+        - createIndex:
+            tableName: satellites
+            indexName: idx_satellite_type
+            columns:
+              - column:
+                  name: type

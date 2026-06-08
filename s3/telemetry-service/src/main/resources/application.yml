@@ -1,0 +1,28 @@
+server:
+  port: 9092
+
+spring:
+  application:
+    name: telemetry-service
+  kafka:
+    bootstrap-servers: localhost:9094
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.ByteArraySerializer
+
+grpc:
+  server:
+    port: 9091
+
+logging:
+  level:
+    ru.bauman.telemetry: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always

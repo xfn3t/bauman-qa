@@ -1,0 +1,100 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-create-satellites-table
+      author: system
+      changes:
+        # Основная таблица с общими полями
+        - createTable:
+            tableName: satellites
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: battery_level
+                  type: decimal(3,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: active
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: constellation_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamp
+
+        # Внешний ключ к constellations
+        - addForeignKeyConstraint:
+            baseTableName: satellites
+            baseColumnNames: constellation_id
+            referencedTableName: constellations
+            referencedColumnNames: id
+            constraintName: fk_satellite_constellation
+            onDelete: SET NULL
+            onUpdate: CASCADE
+
+        # Таблица для спутников связи
+        - createTable:
+            tableName: communication_satellites
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    foreignKeyName: fk_comm_satellite
+                    references: satellites(id)
+                    deleteCascade: true
+              - column:
+                  name: bandwidth
+                  type: decimal(10,2)
+
+        # Таблица для спутников ДЗЗ
+        - createTable:
+            tableName: imaging_satellites
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    foreignKeyName: fk_img_satellite
+                    references: satellites(id)
+                    deleteCascade: true
+              - column:
+                  name: resolution
+                  type: decimal(10,2)
+              - column:
+                  name: photos_taken
+                  type: integer
+                  defaultValue: "0"

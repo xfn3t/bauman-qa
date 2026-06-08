@@ -1,0 +1,23 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/satellite_local
+    username: postgres
+    password: postgres
+    hikari:
+      maximum-pool-size: 10
+      connection-timeout: 30000
+
+  jpa:
+#    show-sql: true
+    properties:
+      hibernate:
+        ddl-auto: create-drop
+#        use_sql_comments: true
+
+logging:
+  level:
+    org.hibernate.SQL: INFO

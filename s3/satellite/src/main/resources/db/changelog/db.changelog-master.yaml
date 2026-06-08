@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/changes/001-create-constellations-table.yaml
+  - include:
+      file: db/changelog/changes/002-create-satellites-table.yaml
+  - include:
+      file: db/changelog/changes/003-create-indexes.yaml
+  - include:
+      file: db/changelog/changes/004-add-energy-system-fields.yaml
+  - include:
+      file: db/changelog/changes/005-add-state-column.yaml
+  - include:
+      file: db/changelog/changes/006-add-temperature-columns.yaml

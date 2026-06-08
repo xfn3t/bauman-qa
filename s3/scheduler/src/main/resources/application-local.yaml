@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/scheduler_outbox
+    username: scheduler_user
+    password: scheduler_pass
+    driver-class-name: org.postgresql.Driver
+
+app:
+  space-center-service:
+    url: "http://localhost:8080/api"

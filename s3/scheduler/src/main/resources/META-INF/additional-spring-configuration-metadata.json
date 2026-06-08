@@ -1,0 +1,24 @@
+{
+  "properties": [
+    {
+      "name": "feign.client.config.default.connectTimeout",
+      "type": "java.lang.Integer",
+      "description": "Connection timeout in milliseconds."
+    },
+    {
+      "name": "feign.client.config.default.readTimeout",
+      "type": "java.lang.Integer",
+      "description": "Read timeout in milliseconds."
+    },
+    {
+      "name": "feign.client.config.default.loggerLevel",
+      "type": "java.lang.String",
+      "description": "Log level: NONE, BASIC, HEADERS, FULL."
+    },
+    {
+      "name": "feign.okhttp.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Enable OkHttp as the HTTP client."
+    }
+  ]
+}

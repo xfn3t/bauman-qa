@@ -1,0 +1,26 @@
+spring:
+  test:
+    database:
+      replace: none
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 60000
+      validation-timeout: 5000
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  liquibase:
+    enabled: false
+
+logging:
+  level:
+    root: WARN
+    ru.bauman.seminar: DEBUG
