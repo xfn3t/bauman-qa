@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - changeSet:
+      id: 006-add-temperature-columns
+      author: system
+      changes:
+        - addColumn:
+            tableName: satellites
+            columns:
+              - column:
+                  name: internal_temperature
+                  type: double
+                  constraints:
+                    nullable: true
+              - column:
+                  name: external_temperature
+                  type: double
+                  constraints:
+                    nullable: true

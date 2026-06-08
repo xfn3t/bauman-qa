@@ -1,0 +1,68 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-mission-outbox-table
+      author: scheduler
+      changes:
+        - createTable:
+            tableName: mission_outbox
+            remarks: "Отложенные команды выполнения миссий"
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: deduplication_id
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: constellation_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: satellite_name
+                  type: varchar(255)
+              - column:
+                  name: mission_type
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: activate_before_mission
+                  type: boolean
+                  defaultValueBoolean: true
+              - column:
+                  name: status
+                  type: varchar(20)
+                  defaultValue: "PENDING"
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: processed_at
+                  type: timestamp
+              - column:
+                  name: attempts
+                  type: int
+                  defaultValueNumeric: 0
+              - column:
+                  name: last_error
+                  type: text
+              - column:
+                  name: next_retry_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+        - createIndex:
+            tableName: mission_outbox
+            indexName: idx_mission_outbox_pending
+            columns:
+              - column:
+                  name: next_retry_at
+            where: "status = 'PENDING'"

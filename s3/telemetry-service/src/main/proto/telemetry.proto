@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package ru.bauman.telemetry;
+
+option java_multiple_files = true;
+option java_package = "ru.bauman.telemetry.proto";
+option java_outer_classname = "TelemetryProto";
+
+message TelemetryRequest {
+  string satellite_name = 1;
+}
+
+message TelemetryUpdate {
+  string satellite_name = 1;
+  double internal_temperature = 2;
+  double external_temperature = 3;
+  int64 timestamp = 4;
+}
+
+service TelemetryService {
+  rpc StreamTelemetry(TelemetryRequest) returns (stream TelemetryUpdate);
+}
