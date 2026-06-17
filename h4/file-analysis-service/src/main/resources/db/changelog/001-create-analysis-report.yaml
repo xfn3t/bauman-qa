@@ -1,0 +1,58 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-analysis-report
+      author: xfnet
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+                tableName: analysis_report
+      changes:
+        - createTable:
+            tableName: analysis_report
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: work_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: file_name
+                  type: varchar(512)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: file_size
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: format
+                  type: varchar(32)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(32)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: issues
+                  type: text
+              - column:
+                  name: created_at
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: false
+        - createIndex:
+            tableName: analysis_report
+            indexName: idx_report_work_id
+            columns:
+              - column:
+                  name: work_id

@@ -1,0 +1,9 @@
+**/build/
+.gradle/
+bin/
+**/.gradle/
+*.log
+*.tmp
+.git/
+.gitignore
+HELP.md
